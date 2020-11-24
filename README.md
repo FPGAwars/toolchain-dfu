@@ -12,31 +12,28 @@ This information is for **developers**
 * Change the **VERSION** variable to the new version for the Apio package (For example VERSION=2020.10.6)
 
 ```bash
-# -- fujprog apio package version
-VERSION=2020.10.6
+# -- dfu apio package version
+VERSION=2020.11.24
 ```
 
-* Set the **fujprog version** to include in the apio package
+* Set the **dfu version** to include in the apio package
 
- You should define two numbers. For example, for packing fujprog version v4.6:
-
-```bash
-# -- fujprog version to download
-# -- Current v4.6
-SRC_MAYOR=4
-SRC_MINOR=6
-SRC_VER=v$SRC_MAYOR.$SRC_MINOR
+```
+# -- fpga-toolchain version to download
+# -- nightly-20201124
+SRC_VER="nightly-20201124"
 ```
 
 * **Save** the file
 * **Execute** the building script for all the **architectures** you want to create
 
-It will download the executables from the [fujprog](https://github.com/kost/fujprog) and package them for apio
+It will download the executables from the [fpga-toolchain](https://github.com/open-tool-forge/fpga-toolchain) project and package them for apio
 
 The **apio target architectures** are:
 
  * linux_x86_64: For linux 64-bits
  * windows_amd64: for windows 64-bits
+ * windows_x86: for windows 32-bits
  * darwin: For Mac
 
 Example: Building the package for Linux
@@ -45,23 +42,29 @@ Example: Building the package for Linux
 bash build linux_x86_64
 ```
 
-* The **apio packages** are stored in the local **releases folder**  
-* Create the **new release of toolchain-fujprog** in Github  
+* The **apio packages** are stored in the local **releases** folder  
+* Create the **new release of toolchain-dfu** in Github  
 The tag and name of the release should start with the **letter v** and have three numbers separated by a colon. Ex: v2020.10.6  
 * **Upload the apio packages** from the releases local folder  
 * Apio should **upgrade** to the new version with the **install command**:
 ```
-apio install fujprog
+apio install dfu
 ```
 * You can check that the new version is installed with:
 ```
 apio install -l
 ```
 
+## Authors
+
+* [Carlos Venegas](https://github.com/cavearr)
+* [Juan González (Obijuan)](https://github.com/Obijuan)
+
 ## Credits
 
-* The [fujprog](https://github.com/kost/fujprog) project has been developed by: Marko Zec, EMARD, gojimmpypi and Kost
+* The [dfu-util](http://dfu-util.sourceforge.net/) has been developed by Harald Welte and Tormod Volden
+* The [fpga-toolchain](https://github.com/open-tool-forge/fpga-toolchain) project has been developed by Edward Bordin
 
-* The building scripts are based on the [Tools-systems](https://github.com/FPGAwars/tools-system) by  
+* The building scripts are based on the [Tools-systems](https://github.com/FPGAwars/tools-system) by
   * [Jesús Arroyo Torrens](https://github.com/Jesus89)
   * [Juan González-Gómez (Obijuan)](https://github.com/Obijuan)
