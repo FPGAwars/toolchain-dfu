@@ -11,7 +11,7 @@ This information is for **developers**
 * Open the **build.sh** file
 * Change the **VERSION** variable to the new version for the Apio package (For example VERSION=2020.10.6)
 
-```bash
+```
 # -- dfu apio package version
 VERSION=2020.11.24
 ```
@@ -33,8 +33,8 @@ The **apio target architectures** are:
 
  * linux_x86_64: For linux 64-bits
  * windows_amd64: for windows 64-bits
- * windows_x86: for windows 32-bits
  * darwin: For Mac
+ (Not available for windows 32-bits)
 
 Example: Building the package for Linux
 
@@ -44,7 +44,7 @@ bash build linux_x86_64
 
 * The **apio packages** are stored in the local **releases** folder  
 * Create the **new release of toolchain-dfu** in Github  
-The tag and name of the release should start with the **letter v** and have three numbers separated by a colon. Ex: v2020.10.6  
+The tag and name of the release should start with the **letter v** and have three numbers separated by a colon. Ex: v2020.11.24  
 * **Upload the apio packages** from the releases local folder  
 * Apio should **upgrade** to the new version with the **install command**:
 ```

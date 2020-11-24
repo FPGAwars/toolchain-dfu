@@ -18,13 +18,13 @@ SRC_VER="nightly-20201124"
 
 # -- Target architectures
 ARCH=$1
-TARGET_ARCHS="linux_x86_64 windows_amd64 windows_x86 darwin"
+TARGET_ARCHS="linux_x86_64 windows_amd64 darwin"
 
 # -- Tools name
 NAME=toolchain-dfu
 
 # -- Source fpga-toolchain package name (without arch, version and extension)
-SRC_NAME="fpga-toolchain-"$ARCH-$SRC_VER.tar.gz
+SRC_NAME="fpga-toolchain-"$ARCH-$SRC_VER
 
 # -- Source URL
 SRC_URL="https://github.com/open-tool-forge/fpga-toolchain/releases/download/nightly-20201124"
@@ -90,34 +90,26 @@ mkdir -p "$UPSTREAM_DIR"
 echo ""
 echo ">>> ARCHITECTURE \"$ARCH\""
 
+
+
 # -- Source architecture: should be the same than target
 # -- architecture, but the names in the fujprog and apio
 # -- are different: Convert from fujprog to apio
 if [ "$ARCH" == "windows_amd64" ]; then
-  SRC_ARCH="win64"
+  SRC_NAME=$SRC_NAME".zip"
   EXE=".exe"
-  SRC_NAME=$SRC_NAME$SRC_ARCH$EXE
   echo "Source filename: "$SRC_NAME
 fi
-
-if [ "$ARCH" == "windows_x86" ]; then
-  SRC_ARCH="win32"
-  EXE=".exe"
-  SRC_NAME=$SRC_NAME$SRC_ARCH$EXE
-  echo "Source filename: "$SRC_NAME
-fi
-
 
 if [ "$ARCH" == "linux_x86_64" ]; then
-  SRC_ARCH="linux-x64"
+  SRC_NAME=$SRC_NAME".tar.gz"
   EXE=""
   echo "Source filename: "$SRC_NAME
 fi
 
 if [ "$ARCH" == "darwin" ]; then
-  SRC_ARCH="mac-x64"
+  SRC_NAME=$SRC_NAME".tar.gz"
   EXE=""
-  SRC_NAME=$SRC_NAME$SRC_ARCH$EXE
   echo "Source filename: "$SRC_NAME
 fi
 
@@ -134,30 +126,23 @@ else
 fi
 
 # --- Uncompress the file
-tar vzxf $SRC_NAME
+if [ "$ARCH" == "windows_amd64" ]; then
+  unzip $SRC_NAME
+else
+  tar vzxf $SRC_NAME
+fi
 
 # -- Move the dfu-util to the package bin folder
-mv fpga-toolchain/bin/dfu-util $PACKAGE_DIR/$NAME/bin
+mv fpga-toolchain/bin/dfu-util$EXE $PACKAGE_DIR/$NAME/bin
 
 # -- Create package script
 
 # -- Copy templates/package-template.json
 cp -r "$WORK_DIR"/build-data/templates/package-template.json "$PACKAGE_DIR"/"$NAME"/package.json
 
-if [ "$ARCH" == "linux_x86_64" ]; then
-  sed -i "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/"$NAME"/package.json
-  sed -i "s/%SYSTEM%/\"linux_x86_64\"/;" "$PACKAGE_DIR"/"$NAME"/package.json
-fi
-
-if [ "$ARCH" == "windows_amd64" ]; then
-  sed -i "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/"$NAME"/package.json
-  sed -i "s/%SYSTEM%/\"windows_amd64\"/;" "$PACKAGE_DIR"/"$NAME"/package.json
-fi
-
-if [ "$ARCH" == "windows_x86" ]; then
-  sed -i "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/"$NAME"/package.json
-  sed -i "s/%SYSTEM%/\"windows_x86\"/;" "$PACKAGE_DIR"/"$NAME"/package.json
-fi
+# -- Fill in the templates with the current version and architecture
+sed -i "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/"$NAME"/package.json
+sed -i "s/%SYSTEM%/\"$ARCH\"/;" "$PACKAGE_DIR"/"$NAME"/package.json
 
 ## --Create a tar.gz package
 
