@@ -1,0 +1,7 @@
+{
+  "name":"toolchain-dfu",
+  "description":"Device Firmware Upgrade Utilities",
+  "url":"https://github.com/FPGAwars/toolchain-dfu/releases",
+  "version": %VERSION%,
+  "system": [ %SYSTEM% ]
+}
