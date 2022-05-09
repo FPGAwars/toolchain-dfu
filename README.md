@@ -1,3 +1,8 @@
+# Archived!
+* **2022-May-9**: This repo has been archived, since the dfu-util is no longer used as an isolated Apio package. Use the [Tools-oss-cad-suite](https://github.com/FPGAwars/tools-oss-cad-suite) package instead
+
+---------
+
 # toolchain-dfu
 Apio package that contains the [dfu-util](http://dfu-util.sourceforge.net/) utility for programming the [Fomu board](https://github.com/im-tomu/fomu-hardware)
 
